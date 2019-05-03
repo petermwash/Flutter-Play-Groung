@@ -10,8 +10,30 @@ void main() {
         backgroundColor: Colors.blueGrey,
       ),
       body: getListView(),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => debugPrint("FAB clicked"),
+        child: Icon(Icons.add),
+        tooltip: "Add One More Item",
+        backgroundColor: Colors.blueGrey,
+      ),
     ),
   ));
+}
+
+///A method to show a SnackBar
+///
+///Similar FAB, SnackBar should be below our Scaffold widget
+///this is because it uses the context from the scaffold widget
+void showSnackBar(BuildContext context, String message) {
+  var snackBar = SnackBar(
+    content: Text("You just clicked $message"),
+    action: SnackBarAction(
+        label: "UNDO",
+        onPressed: () => debugPrint("Performing Dummy UNDO Action!!")
+    ),
+  );
+
+  Scaffold.of(context).showSnackBar(snackBar);
 }
 
 /// Here we are preparing the Data Source
@@ -30,7 +52,7 @@ Widget getListView() {
     return ListTile(
       leading: Icon(Icons.art_track),
       title: Text(listItems[index]),
-      onTap: () => debugPrint("${listItems[index]} was TAPPED!!"),
+      onTap: () => showSnackBar(context, listItems[index]),
     );
   });
 
