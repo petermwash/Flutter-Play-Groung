@@ -16,10 +16,11 @@ class FavoriteCity extends StatefulWidget {
 
 class _FavoriteCityState extends State<FavoriteCity> {
   String cityName = "";
+  var currencies = ['Rupees', 'Dollar', 'Pounds', 'Shillings', 'Others'];
+  var currentItemSelected = "Shillings";
 
   @override
   Widget build(BuildContext context) {
-
     debugPrint("Favourite City widget is created");
 
     return Scaffold(
@@ -35,10 +36,27 @@ class _FavoriteCityState extends State<FavoriteCity> {
               ///You can use onSubmitted()
               onChanged: (String userInput) {
                 setState(() {
-                  debugPrint("setState() is called, this tells the framework to redraw the FavoriteCity widget");
+                  debugPrint(
+                      "setState() is called, this tells the framework to redraw the FavoriteCity widget");
                   cityName = userInput;
                 });
               },
+            ),
+            DropdownButton<String>(
+              items: currencies.map((String dropDownStringItem) {
+
+                return DropdownMenuItem<String>(
+                  value: dropDownStringItem,
+                  child: Text(dropDownStringItem),
+                );
+              }).toList(),
+
+              onChanged: (String newValueSelected) {
+                ///Here goes the the code to execute when a menu item is selected from the dropdown
+                onDropDownItemSelected(newValueSelected);
+              },
+
+              value: currentItemSelected,
             ),
             Padding(
               padding: EdgeInsets.all(30.0),
@@ -51,5 +69,11 @@ class _FavoriteCityState extends State<FavoriteCity> {
         ),
       ),
     );
+  }
+
+  void onDropDownItemSelected(String newValueSelected) {
+    setState(() {
+      this.currentItemSelected = newValueSelected;
+    });
   }
 }
